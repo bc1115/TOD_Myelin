@@ -154,6 +154,7 @@ for (i in seq_along(T1T2ratio_aparc_Vars)) {
 
 ggplot(TOD_Myelin_aparc, mapping = aes(x = Mullen_ELC, y = pericalcarine_myelin, colour = Dx)) + geom_point() + geom_smooth(method='lm', formula = y~x) + theme_bw()
 ggplot(TOD_Myelin_aparc, mapping = aes(x = Mullen_ELC, y = cuneus_myelin, colour = Dx)) + geom_point() + geom_smooth(method='lm', formula = y~x) + theme_bw()
+ggplot(TOD_Myelin_aparc, mapping = aes(x = Mullen_ELC, y = precuneus_myelin, colour = Dx)) + geom_point() + geom_smooth(method='lm', formula = y~x) + theme_bw()
 
 ```
 
@@ -175,5 +176,49 @@ for (i in seq_along(T1T2ratio_aparc_Vars)) {
 
 ggplot(TOD_Myelin_aparc, mapping = aes(x = Mullen_VR_T, y = pericalcarine_myelin, colour = Dx)) + geom_point() + geom_smooth(method='lm', formula = y~x) + theme_bw()
 ggplot(TOD_Myelin_aparc, mapping = aes(x = Mullen_VR_T, y = cuneus_myelin, colour = Dx)) + geom_point() + geom_smooth(method='lm', formula = y~x) + theme_bw()
+
+```
+
+##T1/T2 ratio by CT, Dx, and CT by Dx interactions controlling for age, sex, and CNR 
+```{r, GLM of T1/T2 ratio by CT Dx and CT by Dx interaction, echo = FALSE, include = TRUE, results='asis'}
+n <-12
+T1T2ratio_aparc <- TOD_Myelin_aparc[,c(10:21)]
+T1T2ratio_aparc_Vars = names(T1T2ratio_aparc)
+CT_aparc <- TOD_Myelin_aparc[,c(26:37)]
+T1T2ratio_CT <- lapply(1:n, function(x) lm(T1T2ratio_aparc[,x] ~ CT_aparc[,x] + Age + Group + Sex + gray_white_cnr + CT_aparc[,x]*Group, data=TOD_Myelin_aparc))
+ 
+for (i in seq_along(T1T2ratio_aparc_Vars)) {
+  cat(tab_model(T1T2ratio_CT[i], dv.labels = paste(T1T2ratio_aparc_Vars[[i]]))$knitr,"\n--------\n")
+}
+
+```
+
+##Correlational plots of T1/T2 ratio with CT
+```{r, correlational plots T1/T2 ratio with CT, echo = FALSE, include = TRUE}
+
+ggplot(TOD_Myelin_aparc, mapping = aes(x = lingual_thickness, y = lingual_myelin, colour = Dx)) + geom_point() + geom_smooth(method='lm', formula = y~x) + theme_bw()
+ggplot(TOD_Myelin_aparc, mapping = aes(x = parahippocampal_thickness, y = parahippocampal_myelin, colour = Dx)) + geom_point() + geom_smooth(method='lm', formula = y~x) + theme_bw()
+
+```
+
+##T1/T2 ratio by volume, Dx, and volume by Dx interactions controlling for age, sex, and CNR 
+```{r, GLM of T1/T2 ratio by volume Dx and volume by Dx interaction, echo = FALSE, include = TRUE, results='asis'}
+n <-12
+T1T2ratio_aparc <- TOD_Myelin_aparc[,c(10:21)]
+T1T2ratio_aparc_Vars = names(T1T2ratio_aparc)
+Volume_aparc <- TOD_Myelin_aparc[,c(38:49)]
+T1T2ratio_volume <- lapply(1:n, function(x) lm(T1T2ratio_aparc[,x] ~ Volume_aparc[,x] + Age + Group + Sex + gray_white_cnr + Volume_aparc[,x]*Group, data=TOD_Myelin_aparc))
+ 
+for (i in seq_along(T1T2ratio_aparc_Vars)) {
+  cat(tab_model(T1T2ratio_volume[i], dv.labels = paste(T1T2ratio_aparc_Vars[[i]]))$knitr,"\n--------\n")
+}
+
+```
+
+##Correlational plots of T1/T2 ratio with volume
+```{r, correlational plots T1/T2 ratio with volume, echo = FALSE, include = TRUE}
+
+ggplot(TOD_Myelin_aparc, mapping = aes(x = cuneus_volume, y = cuneus_myelin, colour = Dx)) + geom_point() + geom_smooth(method='lm', formula = y~x) + theme_bw()
+ggplot(TOD_Myelin_aparc, mapping = aes(x = precuneus_volume, y = precuneus_myelin, colour = Dx)) + geom_point() + geom_smooth(method='lm', formula = y~x) + theme_bw()
 
 ```
