@@ -39,31 +39,45 @@ TOD_Myelin_aparc_TD <- TOD_Myelin_aparc[which(TOD_Myelin_aparc$Group==0),]
 ```
 
 #GLM analysis 
-##T1/T2 ratio by Dx, age, and age by Dx interactions controlling for sex and CNR 
-```{r, GLM of T1/T2 ratio by Dx age and age by Dx interaction, echo = FALSE, include = TRUE, results='asis'}
+<!-- ##T1/T2 ratio by Dx, age, and age by Dx interactions controlling for sex and CNR  -->
+<!-- ```{r, GLM of T1/T2 ratio by Dx age and age by Dx interaction, echo = FALSE, include = TRUE, results='asis'} -->
+<!-- n <-13 -->
+<!-- T1T2ratio_aparc <- TOD_Myelin_aparc[,c(10:22)] -->
+<!-- T1T2ratio_aparc_Vars = names(T1T2ratio_aparc) -->
+<!-- T1T2ratio_glm <- lapply(1:n, function(x) lm(T1T2ratio_aparc[,x] ~ Age + Group + Sex + gray_white_cnr + Age*Group, data=TOD_Myelin_aparc)) -->
+
+<!-- for (i in seq_along(T1T2ratio_aparc_Vars)) { -->
+<!--   cat(tab_model(T1T2ratio_glm[i], dv.labels = paste(T1T2ratio_aparc_Vars[[i]]))$knitr,"\n--------\n") -->
+<!-- } -->
+
+<!-- ``` -->
+
+##T1/T2 ratio by Dx, age, and age by Dx interactions without covariates
+```{r, GLM of T1/T2 ratio by Dx age and age by Dx interaction without covariates, echo = FALSE, include = TRUE, results='asis'}
 n <-13
 T1T2ratio_aparc <- TOD_Myelin_aparc[,c(10:22)]
 T1T2ratio_aparc_Vars = names(T1T2ratio_aparc)
-T1T2ratio_glm <- lapply(1:n, function(x) lm(T1T2ratio_aparc[,x] ~ Age + Group + Sex + gray_white_cnr + Age*Group, data=TOD_Myelin_aparc))
+T1T2ratio_glm_withoutcovariate <- lapply(1:n, function(x) lm(T1T2ratio_aparc[,x] ~ Age + Group + Age*Group, data=TOD_Myelin_aparc))
  
 for (i in seq_along(T1T2ratio_aparc_Vars)) {
-  cat(tab_model(T1T2ratio_glm[i], dv.labels = paste(T1T2ratio_aparc_Vars[[i]]))$knitr,"\n--------\n")
+  cat(tab_model(T1T2ratio_glm_withoutcovariate[i], dv.labels = paste(T1T2ratio_aparc_Vars[[i]]))$knitr,"\n--------\n")
 }
 
 ```
 
-##T1/T2 ratio by Dx, age, and age by Dx interactions controlling for sex, CNR, and maternal education 
-```{r, GLM of T1/T2 ratio by Dx age and age by Dx interaction control for maternal edu, echo = FALSE, include = TRUE, results='asis'}
-n <-13
-T1T2ratio_aparc <- TOD_Myelin_aparc[,c(10:22)]
-T1T2ratio_aparc_Vars = names(T1T2ratio_aparc)
-T1T2ratio_glm_matedu <- lapply(1:n, function(x) lm(T1T2ratio_aparc[,x] ~ Age + Group + Sex + gray_white_cnr + maternal_edu + Age*Group, data=TOD_Myelin_aparc))
- 
-for (i in seq_along(T1T2ratio_aparc_Vars)) {
-  cat(tab_model(T1T2ratio_glm_matedu[i], dv.labels = paste(T1T2ratio_aparc_Vars[[i]]))$knitr,"\n--------\n")
-}
+<!-- ##T1/T2 ratio by Dx, age, and age by Dx interactions controlling for sex, CNR, and TBV  -->
+<!-- ```{r, GLM of T1/T2 ratio by Dx age and age by Dx interaction control for TBV, echo = FALSE, include = TRUE, results='asis'} -->
+<!-- n <-13 -->
+<!-- T1T2ratio_aparc <- TOD_Myelin_aparc[,c(10:22)] -->
+<!-- T1T2ratio_aparc_Vars = names(T1T2ratio_aparc) -->
+<!-- T1T2ratio_glm_tbv <- lapply(1:n, function(x) lm(T1T2ratio_aparc[,x] ~ Age + Group + Sex + gray_white_cnr + TBV + Age*Group, data=TOD_Myelin_aparc)) -->
 
-```
+<!-- for (i in seq_along(T1T2ratio_aparc_Vars)) { -->
+<!--   cat(tab_model(T1T2ratio_glm_tbv[i], dv.labels = paste(T1T2ratio_aparc_Vars[[i]]))$knitr,"\n--------\n") -->
+<!-- } -->
+
+<!-- ``` -->
+
 
 <!-- ##T1/T2 ratio by Dx and age controlling for sex and CNR  -->
 <!-- ```{r, GLM of T1/T2 ratio by Dx and age, echo = FALSE, include = TRUE, results='asis'} -->
@@ -110,18 +124,55 @@ ggplot(TOD_Myelin_aparc, mapping = aes(x = Age, y = superiorparietal_myelin, col
 
 ```
 
-##T1/T2 ratio by ADOS CSS controlling for age, sex, and CNR 
-```{r, GLM of T1/T2 ratio by ADOS CSS controlling for age sex and CNR, echo = FALSE, include = TRUE, results='asis'}
+<!-- ##T1/T2 ratio by Dx, maternal education, and Dx by maternal education interactions controlling for age  -->
+<!-- ```{r, GLM of T1/T2 ratio by Dx maternal edu and Dx by maternal edu interaction control for age, echo = FALSE, include = TRUE, results='asis'} -->
+<!-- n <-13 -->
+<!-- T1T2ratio_aparc <- TOD_Myelin_aparc[,c(10:22)] -->
+<!-- T1T2ratio_aparc_Vars = names(T1T2ratio_aparc) -->
+<!-- T1T2ratio_matedu_glm <- lapply(1:n, function(x) lm(T1T2ratio_aparc[,x] ~ Group + maternal_edu + Age + Group*maternal_edu, data=TOD_Myelin_aparc)) -->
+
+<!-- for (i in seq_along(T1T2ratio_aparc_Vars)) { -->
+<!--   cat(tab_model(T1T2ratio_matedu_glm[i], dv.labels = paste(T1T2ratio_aparc_Vars[[i]]))$knitr,"\n--------\n") -->
+<!-- } -->
+
+<!-- ``` -->
+
+##T1/T2 ratio by maternal education controlling for age and Dx 
+```{r, GLM of T1/T2 ratio by maternal edu control for age and Dx, echo = FALSE, include = TRUE, results='asis'}
 n <-13
 T1T2ratio_aparc <- TOD_Myelin_aparc[,c(10:22)]
 T1T2ratio_aparc_Vars = names(T1T2ratio_aparc)
-T1T2ratio_ados_glm <- lapply(1:n, function(x) lm(T1T2ratio_aparc[,x] ~ ADOS_CSS + Age + Sex + gray_white_cnr, data=TOD_Myelin_aparc))
+T1T2ratio_matedu_glm_simple <- lapply(1:n, function(x) lm(T1T2ratio_aparc[,x] ~maternal_edu + Group + Age, data=TOD_Myelin_aparc))
+ 
+for (i in seq_along(T1T2ratio_aparc_Vars)) {
+  cat(tab_model(T1T2ratio_matedu_glm_simple[i], dv.labels = paste(T1T2ratio_aparc_Vars[[i]]))$knitr,"\n--------\n")
+}
+
+```
+
+##Correlational plots of T1/T2 ratio with maternal edu 
+```{r, correlational plots T1/T2 ratio with maternal edu, echo = FALSE, include = TRUE}
+
+ggplot(TOD_Myelin_aparc, mapping = aes(x = maternal_edu, y = transversetemporal_myelin, colour = Dx)) + geom_point() + geom_smooth(method='lm', formula = y~x) + theme_bw()
+ggplot(TOD_Myelin_aparc, mapping = aes(x = maternal_edu, y = parahippocampal_myelin, colour = Dx)) + geom_point() + geom_smooth(method='lm', formula = y~x) + theme_bw()
+```
+
+##T1/T2 ratio by ADOS CSS controlling for age
+```{r, GLM of T1/T2 ratio by ADOS CSS controlling for age, echo = FALSE, include = TRUE, results='asis'}
+n <-13
+T1T2ratio_aparc <- TOD_Myelin_aparc[,c(10:22)]
+T1T2ratio_aparc_Vars = names(T1T2ratio_aparc)
+T1T2ratio_ados_glm <- lapply(1:n, function(x) lm(T1T2ratio_aparc[,x] ~ ADOS_CSS + Age, data=TOD_Myelin_aparc))
  
 for (i in seq_along(T1T2ratio_aparc_Vars)) {
   cat(tab_model(T1T2ratio_ados_glm[i], dv.labels = paste(T1T2ratio_aparc_Vars[[i]]))$knitr,"\n--------\n")
 }
 
 ```
+<!-- ##Correlational plots of T1/T2 ratio with ADOS CSS  -->
+<!-- ```{r, correlational plots T1/T2 ratio with ADOS CSS, echo = FALSE, include = TRUE} -->
+<!-- ggplot(TOD_Myelin_aparc, mapping = aes(x = ADOS_CSS, y = pericalcarine_myelin, colour = Dx)) + geom_point() + geom_smooth(method='lm', formula = y~x) + theme_bw() -->
+<!-- ``` -->
 
 <!-- ##T1/T2 ratio by Mullen ELC, DX, and Mullen ELC by Dx interaction controlling for age, sex, and CNR  -->
 <!-- ```{r, GLM of T1/T2 ratio by Mullen ELC and Dx and Mullen ELC by Dx interaction controlling for age and sex and CNR, echo = FALSE, include = TRUE, results='asis'} -->
@@ -136,12 +187,12 @@ for (i in seq_along(T1T2ratio_aparc_Vars)) {
 
 <!-- ``` -->
 
-##T1/T2 ratio by Mullen ELC controlling for Dx, age, sex, and CNR 
-```{r, GLM of T1/T2 ratio by Mullen ELC controlling for Dx age sex and CNR, echo = FALSE, include = TRUE, results='asis'}
+##T1/T2 ratio by Mullen ELC controlling for Dx and age 
+```{r, GLM of T1/T2 ratio by Mullen ELC controlling for Dx and age, echo = FALSE, include = TRUE, results='asis'}
 n <-13
 T1T2ratio_aparc <- TOD_Myelin_aparc[,c(10:22)]
 T1T2ratio_aparc_Vars = names(T1T2ratio_aparc)
-T1T2ratio_mullenELC_glm_simple <- lapply(1:n, function(x) lm(T1T2ratio_aparc[,x] ~ Mullen_ELC + Group + Age + Sex + gray_white_cnr, data=TOD_Myelin_aparc))
+T1T2ratio_mullenELC_glm_simple <- lapply(1:n, function(x) lm(T1T2ratio_aparc[,x] ~ Mullen_ELC + Group + Age, data=TOD_Myelin_aparc))
  
 for (i in seq_along(T1T2ratio_aparc_Vars)) {
   cat(tab_model(T1T2ratio_mullenELC_glm_simple[i], dv.labels = paste(T1T2ratio_aparc_Vars[[i]]))$knitr,"\n--------\n")
@@ -158,12 +209,12 @@ ggplot(TOD_Myelin_aparc, mapping = aes(x = Mullen_ELC, y = precuneus_myelin, col
 
 ```
 
-##T1/T2 ratio by Mullen VR controlling for Dx, age, sex, and CNR 
-```{r, GLM of T1/T2 ratio by Mullen VR controlling for Dx age sex and CNR, echo = FALSE, include = TRUE, results='asis'}
+##T1/T2 ratio by Mullen VR controlling for Dx and age
+```{r, GLM of T1/T2 ratio by Mullen VR controlling for Dx and age, echo = FALSE, include = TRUE, results='asis'}
 n <-13
 T1T2ratio_aparc <- TOD_Myelin_aparc[,c(10:22)]
 T1T2ratio_aparc_Vars = names(T1T2ratio_aparc)
-T1T2ratio_mullenVR_glm_simple <- lapply(1:n, function(x) lm(T1T2ratio_aparc[,x] ~ Mullen_VR_T + Group + Age + Sex + gray_white_cnr, data=TOD_Myelin_aparc))
+T1T2ratio_mullenVR_glm_simple <- lapply(1:n, function(x) lm(T1T2ratio_aparc[,x] ~ Mullen_VR_T + Group + Age, data=TOD_Myelin_aparc))
  
 for (i in seq_along(T1T2ratio_aparc_Vars)) {
   cat(tab_model(T1T2ratio_mullenVR_glm_simple[i], dv.labels = paste(T1T2ratio_aparc_Vars[[i]]))$knitr,"\n--------\n")
@@ -179,19 +230,72 @@ ggplot(TOD_Myelin_aparc, mapping = aes(x = Mullen_VR_T, y = cuneus_myelin, colou
 
 ```
 
-##T1/T2 ratio by CT, Dx, and CT by Dx interactions controlling for age, sex, and CNR 
+##T1/T2 ratio by Mullen FM controlling for Dx and age 
+```{r, GLM of T1/T2 ratio by Mullen FM controlling for Dx and age, echo = FALSE, include = TRUE, results='asis'}
+n <-13
+T1T2ratio_aparc <- TOD_Myelin_aparc[,c(10:22)]
+T1T2ratio_aparc_Vars = names(T1T2ratio_aparc)
+T1T2ratio_mullenFM_glm_simple <- lapply(1:n, function(x) lm(T1T2ratio_aparc[,x] ~ Mullen_FM_T + Group + Age, data=TOD_Myelin_aparc))
+ 
+for (i in seq_along(T1T2ratio_aparc_Vars)) {
+  cat(tab_model(T1T2ratio_mullenFM_glm_simple[i], dv.labels = paste(T1T2ratio_aparc_Vars[[i]]))$knitr,"\n--------\n")
+}
+
+```
+
+##T1/T2 ratio by CT, Dx, and CT by Dx interactions controlling for age 
 ```{r, GLM of T1/T2 ratio by CT Dx and CT by Dx interaction, echo = FALSE, include = TRUE, results='asis'}
 n <-12
 T1T2ratio_aparc <- TOD_Myelin_aparc[,c(10:21)]
 T1T2ratio_aparc_Vars = names(T1T2ratio_aparc)
 CT_aparc <- TOD_Myelin_aparc[,c(26:37)]
-T1T2ratio_CT <- lapply(1:n, function(x) lm(T1T2ratio_aparc[,x] ~ CT_aparc[,x] + Age + Group + Sex + gray_white_cnr + CT_aparc[,x]*Group, data=TOD_Myelin_aparc))
+T1T2ratio_CT <- lapply(1:n, function(x) lm(T1T2ratio_aparc[,x] ~ CT_aparc[,x] + Age + Group + CT_aparc[,x]*Group, data=TOD_Myelin_aparc))
  
 for (i in seq_along(T1T2ratio_aparc_Vars)) {
   cat(tab_model(T1T2ratio_CT[i], dv.labels = paste(T1T2ratio_aparc_Vars[[i]]))$knitr,"\n--------\n")
 }
 
 ```
+
+<!-- ##T1/T2 ratio by CT, Dx, and CT by Dx interactions controlling for age and TBV  -->
+<!-- ```{r, GLM of T1/T2 ratio by CT Dx and CT by Dx interaction control for TBV, echo = FALSE, include = TRUE, results='asis'} -->
+<!-- n <-12 -->
+<!-- T1T2ratio_aparc <- TOD_Myelin_aparc[,c(10:21)] -->
+<!-- T1T2ratio_aparc_Vars = names(T1T2ratio_aparc) -->
+<!-- CT_aparc <- TOD_Myelin_aparc[,c(26:37)] -->
+<!-- T1T2ratio_CT_tbv <- lapply(1:n, function(x) lm(T1T2ratio_aparc[,x] ~ CT_aparc[,x] + Age + Group + TBV + CT_aparc[,x]*Group, data=TOD_Myelin_aparc)) -->
+
+<!-- for (i in seq_along(T1T2ratio_aparc_Vars)) { -->
+<!--   cat(tab_model(T1T2ratio_CT_tbv[i], dv.labels = paste(T1T2ratio_aparc_Vars[[i]]))$knitr,"\n--------\n") -->
+<!-- } -->
+<!-- ``` -->
+
+<!-- ##T1/T2 ratio by CT, controlling for Dx, age, sex, and CNR  -->
+<!-- ```{r, GLM of T1/T2 ratio by CT, echo = FALSE, include = TRUE, results='asis'} -->
+<!-- n <-12 -->
+<!-- T1T2ratio_aparc <- TOD_Myelin_aparc[,c(10:21)] -->
+<!-- T1T2ratio_aparc_Vars = names(T1T2ratio_aparc) -->
+<!-- CT_aparc <- TOD_Myelin_aparc[,c(26:37)] -->
+<!-- T1T2ratio_CT_simple <- lapply(1:n, function(x) lm(T1T2ratio_aparc[,x] ~ CT_aparc[,x] + Age + Group + Sex + gray_white_cnr, data=TOD_Myelin_aparc)) -->
+
+<!-- for (i in seq_along(T1T2ratio_aparc_Vars)) { -->
+<!--   cat(tab_model(T1T2ratio_CT_simple[i], dv.labels = paste(T1T2ratio_aparc_Vars[[i]]))$knitr,"\n--------\n") -->
+<!-- } -->
+
+<!-- ``` -->
+
+<!-- ##T1/T2 ratio by CT in TD, controlling for age, sex, and CNR  -->
+<!-- ```{r, GLM of T1/T2 ratio by CT in TD, echo = FALSE, include = TRUE, results='asis'} -->
+<!-- n <-12 -->
+<!-- T1T2ratio_aparc_TD <- TOD_Myelin_aparc_TD[,c(10:21)] -->
+<!-- T1T2ratio_aparc_Vars = names(T1T2ratio_aparc) -->
+<!-- CT_aparc_TD <- TOD_Myelin_aparc_TD[,c(26:37)] -->
+<!-- T1T2ratio_CT_TD <- lapply(1:n, function(x) lm(T1T2ratio_aparc_TD[,x] ~ CT_aparc_TD[,x] + Age + Sex + gray_white_cnr, data=TOD_Myelin_aparc_TD)) -->
+
+<!-- for (i in seq_along(T1T2ratio_aparc_Vars)) { -->
+<!--   cat(tab_model(T1T2ratio_CT_TD[i], dv.labels = paste(T1T2ratio_aparc_Vars[[i]]))$knitr,"\n--------\n") -->
+<!-- } -->
+<!-- ``` -->
 
 ##Correlational plots of T1/T2 ratio with CT
 ```{r, correlational plots T1/T2 ratio with CT, echo = FALSE, include = TRUE}
@@ -201,19 +305,60 @@ ggplot(TOD_Myelin_aparc, mapping = aes(x = parahippocampal_thickness, y = parahi
 
 ```
 
-##T1/T2 ratio by volume, Dx, and volume by Dx interactions controlling for age, sex, and CNR 
+##T1/T2 ratio by volume, Dx, and volume by Dx interactions controlling for age
 ```{r, GLM of T1/T2 ratio by volume Dx and volume by Dx interaction, echo = FALSE, include = TRUE, results='asis'}
 n <-12
 T1T2ratio_aparc <- TOD_Myelin_aparc[,c(10:21)]
 T1T2ratio_aparc_Vars = names(T1T2ratio_aparc)
 Volume_aparc <- TOD_Myelin_aparc[,c(38:49)]
-T1T2ratio_volume <- lapply(1:n, function(x) lm(T1T2ratio_aparc[,x] ~ Volume_aparc[,x] + Age + Group + Sex + gray_white_cnr + Volume_aparc[,x]*Group, data=TOD_Myelin_aparc))
+T1T2ratio_volume <- lapply(1:n, function(x) lm(T1T2ratio_aparc[,x] ~ Volume_aparc[,x] + Age + Group + Volume_aparc[,x]*Group, data=TOD_Myelin_aparc))
  
 for (i in seq_along(T1T2ratio_aparc_Vars)) {
   cat(tab_model(T1T2ratio_volume[i], dv.labels = paste(T1T2ratio_aparc_Vars[[i]]))$knitr,"\n--------\n")
 }
-
 ```
+
+<!-- ##T1/T2 ratio by volume, Dx, and volume by Dx interactions controlling for age and TBV  -->
+<!-- ```{r, GLM of T1/T2 ratio by volume Dx and volume by Dx interaction control for TBV, echo = FALSE, include = TRUE, results='asis'} -->
+<!-- n <-12 -->
+<!-- T1T2ratio_aparc <- TOD_Myelin_aparc[,c(10:21)] -->
+<!-- T1T2ratio_aparc_Vars = names(T1T2ratio_aparc) -->
+<!-- Volume_aparc <- TOD_Myelin_aparc[,c(38:49)] -->
+<!-- T1T2ratio_volume_tbv <- lapply(1:n, function(x) lm(T1T2ratio_aparc[,x] ~ Volume_aparc[,x] + Age + Group + TBV + Volume_aparc[,x]*Group, data=TOD_Myelin_aparc)) -->
+
+<!-- for (i in seq_along(T1T2ratio_aparc_Vars)) { -->
+<!--   cat(tab_model(T1T2ratio_volume_tbv[i], dv.labels = paste(T1T2ratio_aparc_Vars[[i]]))$knitr,"\n--------\n") -->
+<!-- } -->
+
+<!-- ``` -->
+
+<!-- ##T1/T2 ratio by volume controlling for Dx, age, sex, and CNR  -->
+<!-- ```{r, GLM of T1/T2 ratio by volume, echo = FALSE, include = TRUE, results='asis'} -->
+<!-- n <-12 -->
+<!-- T1T2ratio_aparc <- TOD_Myelin_aparc[,c(10:21)] -->
+<!-- T1T2ratio_aparc_Vars = names(T1T2ratio_aparc) -->
+<!-- Volume_aparc <- TOD_Myelin_aparc[,c(38:49)] -->
+<!-- T1T2ratio_volume_simple <- lapply(1:n, function(x) lm(T1T2ratio_aparc[,x] ~ Volume_aparc[,x] + Age + Group + Sex + gray_white_cnr, data=TOD_Myelin_aparc)) -->
+
+<!-- for (i in seq_along(T1T2ratio_aparc_Vars)) { -->
+<!--   cat(tab_model(T1T2ratio_volume_simple[i], dv.labels = paste(T1T2ratio_aparc_Vars[[i]]))$knitr,"\n--------\n") -->
+<!-- } -->
+
+<!-- ``` -->
+
+<!-- ##T1/T2 ratio by volume in TD controlling for age, sex, and CNR  -->
+<!-- ```{r, GLM of T1/T2 ratio by volume in TD, echo = FALSE, include = TRUE, results='asis'} -->
+<!-- n <-12 -->
+<!-- T1T2ratio_aparc_TD <- TOD_Myelin_aparc_TD[,c(10:21)] -->
+<!-- T1T2ratio_aparc_Vars = names(T1T2ratio_aparc) -->
+<!-- Volume_aparc_TD <- TOD_Myelin_aparc_TD[,c(38:49)] -->
+<!-- T1T2ratio_volume_TD <- lapply(1:n, function(x) lm(T1T2ratio_aparc_TD[,x] ~ Volume_aparc_TD[,x] + Age + Sex + gray_white_cnr, data=TOD_Myelin_aparc_TD)) -->
+
+<!-- for (i in seq_along(T1T2ratio_aparc_Vars)) { -->
+<!--   cat(tab_model(T1T2ratio_volume_TD[i], dv.labels = paste(T1T2ratio_aparc_Vars[[i]]))$knitr,"\n--------\n") -->
+<!-- } -->
+
+<!-- ``` -->
 
 ##Correlational plots of T1/T2 ratio with volume
 ```{r, correlational plots T1/T2 ratio with volume, echo = FALSE, include = TRUE}
